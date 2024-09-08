@@ -1,3 +1,9 @@
+/**
+ * Attempt to create a holder for the graters for a Food Processor Attachment KAH65.000PL.
+ *
+ * Uses too much material, but it is a start.
+ **/
+
 side_height=100;
 wall_thickness=2.5;
 grater_width=157;
@@ -18,7 +24,7 @@ module shelf()
     color("#fefefe")
     difference() {
         cube([shelf_thickness, grater_width, side_height]);
-        translate([-1, shelf_thickness, wall_thickness]) cube([shelf_width, grater_width - shelf_width, side_height]);
+        translate([-1, shelf_width, wall_thickness]) cube([shelf_width, grater_width - shelf_width * 2, side_height]);
     };
 }
 
