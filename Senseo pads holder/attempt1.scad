@@ -1,7 +1,9 @@
 /**
  * Attempt to create a holder for Senseo coffee pads.
  *
- * Idea is you twist, it is not finished as I gave up and just bought a glass container :p
+ * Idea is you twist to open.
+ *
+ * It is not finished as I gave up and just bought a glass container :p
  **/
 
 inner_width = 80;
