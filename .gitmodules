@@ -1,6 +1,6 @@
 [submodule "libraries/Round-Anything"]
 	path = libraries/Round-Anything
-	url = https://github.com/Irev-Dev/Round-Anything.git
+	url = git@github.com:Irev-Dev/Round-Anything.git
 [submodule "libraries/dotSCAD"]
 	path = libraries/dotSCAD
-	url = https://github.com/JustinSDK/dotSCAD.git
+	url = git@github.com:JustinSDK/dotSCAD.git
