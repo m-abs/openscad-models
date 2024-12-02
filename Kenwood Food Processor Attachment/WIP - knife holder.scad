@@ -1,5 +1,24 @@
-include <../libraries/Round-Anything/polyround.scad>
 include <../libraries/dotSCAD/src/box_extrude.scad>
 
-radiiPoints = [ [ -4, 0, 1 ], [ 5, 3, 1.5 ], [ 0, 7, 0.1 ], [ 8, 7, 10 ], [ 20, 20, 0.8 ], [ 10, 0, 10 ] ];
-box_extrude(height = 5, shell_thickness = 0.5, bottom_thickness = 0.5) polygon(polyRound(radiiPoints, 30));
+length = 150;
+width = 87;
+height = 20;
+shell_thickness = 2.5;
+
+module loadSVG()
+{
+    $fn = 360;
+    translate([ -185.1, 33, 0 ])
+    {
+        import(file = "Kenwood s knife - page 2.svg", center = true);
+    }
+}
+
+box_extrude(height = height, shell_thickness = shell_thickness, bottom_thickness = shell_thickness)
+{
+    union()
+    {
+        loadSVG();
+        rotate(180) loadSVG();
+    }
+}
