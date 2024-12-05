@@ -1,4 +1,6 @@
-# openscad-models
+# OpenSCAD models for my own use
+
+Individual models can have a different license, but unless stated these are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
 
 Mostly just playground for now!!!!!
 
