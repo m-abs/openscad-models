@@ -4,7 +4,7 @@ use <../libraries/BOSL/shapes.scad>
 use <../libraries/BOSL/threading.scad>
 use <../libraries/BOSL/transforms.scad>
 
-$fn = 360;
+$fn = 100;
 
 wall = 2.5;
 
@@ -21,7 +21,7 @@ thread_length = 5;
 
 module lip_thread()
 {
-    threaded_rod(d = top_end_width - wall, l = thread_length, pitch = 1.25, align = V_TOP);
+    threaded_rod(d = top_end_width - wall, l = thread_length, pitch = 1.25);
 }
 
 module top()
@@ -98,13 +98,15 @@ module lid()
     {
         difference()
         {
+            // Used to align = V_TOP but gave:
+            // WARNING: Object may not be a valid 2-manifold and may need repair! 
             r = top_end_width / 2;
-            cyl(l = lid_height, r = r, fillet2 = 2, align = V_TOP);
-            down(wall) cyl(l = lid_height, r = r - wall, align = V_TOP);
-            lip_thread();
+            cyl(l = lid_height, r = r);
+            down(wall) cyl(l = lid_height, r = r - wall);
+            down(thread_length / 1.42) lip_thread();
         }
     }
 }
 
-pusher();
+// pusher();
 lid();
