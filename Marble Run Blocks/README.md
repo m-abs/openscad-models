@@ -22,3 +22,12 @@ How to use this:
 2. Modify the `x_repeats` and `y-repeats` variables to the desired size in `extended-build-plate.scad` and render it.
 
 In my set I printed two 3 by 2 and two 3 by 4.
+
+### Custom end block
+
+The standard end block is huge, so this one helps us make a smaller one.
+
+How to use:
+
+1. You need to copy `MarbleRunBlocks-SupportSimple.stl` and `MarbleRunBlocks-SupportDouble.stl` from the Starter pack into this folder.
+2. Use `custom-end-block.scad` to generate either a simple or double sized end block. You select switch by changing mode = 1 for simple and mode = 2 for double.

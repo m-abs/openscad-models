@@ -7,15 +7,15 @@
 
 // If we offset the blocks by 40mm, the attached blocks will overlap
 // and we can extend the grid in both directions.
+include <./tools.scad>
 
 x_repeats = 2;
 y_repeats = 3;
-grid_offset = 40;
-
-grid_width = 60;
-
 module buildPlate()
 {
+    grid_offset = 40;
+    grid_width = 60;
+
     union()
     {
         for (x = [1:x_repeats])
@@ -26,7 +26,7 @@ module buildPlate()
                 y_offset = (y - 1) * grid_offset + grid_width / 2;
                 translate([ x_offset, y_offset ])
                 {
-                    import("MarbleRunBlocks-Grid2x2.stl");
+                    import(grid2by2_filename);
                 }
             }
         }
