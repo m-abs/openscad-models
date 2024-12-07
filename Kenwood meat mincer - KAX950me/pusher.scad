@@ -17,11 +17,11 @@ top_end_width = 70;
 top_height = 49;
 
 lid_height = 12;
-thread_length = 5;
+thread_length = 15;
 
 module lip_thread()
 {
-    threaded_rod(d = top_end_width - wall, l = thread_length, pitch = 1.25);
+    threaded_rod(d = top_end_width - wall, l = thread_length, pitch = 1.5);
 }
 
 module top()
@@ -47,8 +47,8 @@ module top()
 
         union()
         {
-            cylinder(h = h - thread_length, r = r);
-            up(h - thread_length) lip_thread();
+            cylinder(h = h, r = r);
+            up(h + thread_length / 2) lip_thread();
         }
         down(wall)
         {
@@ -75,10 +75,10 @@ module pusher()
             }
 
             // make the bottom cylinder.
-            cylinder(h = bottom_height, r1 = r1, r2 = r2);
+            color("pink") cylinder(h = bottom_height, r1 = r1, r2 = r2);
 
             // make the top piece.
-            translate([ 0, 0, bottom_height + 12.5 ])
+            up(bottom_height + 13)
             {
                 top();
             }
@@ -99,14 +99,23 @@ module lid()
         difference()
         {
             // Used to align = V_TOP but gave:
-            // WARNING: Object may not be a valid 2-manifold and may need repair! 
+            // WARNING: Object may not be a valid 2-manifold and may need repair!
             r = top_end_width / 2;
-            cyl(l = lid_height, r = r);
+
+            // make a small rounded bottom.
+            union()
+            {
+                up(lid_height / 2) scale([ 1, 1, 4 / r ])
+                {
+                    sphere(r = r);
+                }
+                cyl(l = lid_height, r = r);
+            }
             down(wall) cyl(l = lid_height, r = r - wall);
             down(thread_length / 1.42) lip_thread();
         }
     }
 }
 
-// pusher();
+pusher();
 lid();
