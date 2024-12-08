@@ -14,7 +14,7 @@ module marbleTunnel(length = 42)
     tunnel_circle_radius = 9.5;
     tunnel_edge = 2.039;
 
-    union()
+    down(1) union()
     {
         cube([ tunnel_edge, length, tunnel_width ], center = true);
         cube([ tunnel_width, length, tunnel_edge ], center = true);
