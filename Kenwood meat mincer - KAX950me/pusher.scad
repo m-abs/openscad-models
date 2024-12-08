@@ -19,7 +19,7 @@ thread_length = lid_height - wall;
 
 module lip_thread()
 {
-    threaded_rod(d = top_end_width - wall / 2, l = thread_length, pitch = 1.5, $fn = 160, align = V_TOP);
+    threaded_rod(d = top_end_width, l = thread_length, pitch = 1.5, $fn = 160, align = V_TOP);
 }
 
 module top()
@@ -36,7 +36,7 @@ module top()
         zscale(Z_SCALE) staggered_sphere(r = r - wall, $fn = 360, align = V_TOP);
 
         // Cut off the top half of the sphere.
-        cylinder(h = top_end_width, r = r, $fn = 360, align = V_TOP);
+        cyl(l = top_end_width, r = r, $fn = 360, align = V_TOP);
     }
 
     // Straight top of the top.
@@ -48,8 +48,8 @@ module top()
 
         union()
         {
-            cylinder(h = h, r = r, $fn = 360);
-            up(h + thread_length / 2) lip_thread();
+            cyl(l = h, r = r, $fn = 360, align = V_TOP);
+            up(h) lip_thread();
         }
         down(wall) cyl(l = h + wall * 2 + thread_length, r = r - wall, $fn = 360, align = V_TOP);
     }
@@ -67,10 +67,10 @@ module pusher()
         union()
         {
             // make a small rounded bottom.
-            zscale(8 / r1) staggered_sphere(r = r1, $fn = 180, align = V_OP);
+            zscale(8 / r1) staggered_sphere(r = r1, $fn = 180, align = V_TOP);
 
             // make the bottom cylinder.
-            cylinder(h = bottom_height, r1 = r1, r2 = r2, $fn = 360);
+            cyl(l = bottom_height, r1 = r1, r2 = r2, $fn = 360, align = V_TOP);
 
             // make the top piece.
             up(bottom_height + 13) top();
@@ -87,9 +87,7 @@ module lid()
     {
         difference()
         {
-            // Used to align = V_TOP but gave:
-            // WARNING: Object may not be a valid 2-manifold and may need repair!
-            r = top_end_width / 2;
+            r = top_end_width / 2 + wall;
 
             // make a small rounded bottom.
             union()
