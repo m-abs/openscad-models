@@ -14,10 +14,10 @@ bottom_height = 100;
 
 top_start_width = 58.8;
 top_end_width = 70;
-top_height = 49;
+top_height = 70;
 
 lid_height = 12;
-thread_length = 15;
+thread_length = lid_height - wall;
 
 module lip_thread()
 {
@@ -26,12 +26,13 @@ module lip_thread()
 
 module top()
 {
+    // Radius of the top.
     r = top_end_width / 2;
 
     // Roundish bottom of the top.
     difference()
     {
-        // Make a squashed sphere.
+        // Make a squashed hollow sphere.
         Z_SCALE = 0.5;
         zscale(Z_SCALE) sphere(r = r);
         zscale(Z_SCALE) sphere(r = r - wall);
@@ -43,17 +44,16 @@ module top()
     // Straight top of the top.
     difference()
     {
-        h = top_height - (0.5 * r);
+        // Height of the straight part, is the total height minus the height of the round part and minus the height of
+        // the thread.
+        h = top_height - (0.5 * r) - thread_length;
 
         union()
         {
             cylinder(h = h, r = r);
             up(h + thread_length / 2) lip_thread();
         }
-        down(wall)
-        {
-            cylinder(h = h + wall * 2 + thread_length, r = r - wall);
-        }
+        down(wall) cylinder(h = h + wall * 2 + thread_length, r = r - wall);
     }
 }
 
@@ -69,26 +69,17 @@ module pusher()
         union()
         {
             // make a small rounded bottom.
-            scale([ 1, 1, 4 / r1 ])
-            {
-                sphere(r = r1);
-            }
+            scale([ 1, 1, 8 / r1 ]) sphere(r = r1);
 
             // make the bottom cylinder.
-            color("pink") cylinder(h = bottom_height, r1 = r1, r2 = r2);
+            cylinder(h = bottom_height, r1 = r1, r2 = r2);
 
             // make the top piece.
-            up(bottom_height + 13)
-            {
-                top();
-            }
+            up(bottom_height + 13) top();
         }
 
         // Hollow out the bottom.
-        translate([ 0, 0, wall ])
-        {
-            cylinder(h = bottom_height + wall, r1 = r1 - wall, r2 = r2 - wall);
-        }
+        up(wall) cylinder(h = bottom_height + wall, r1 = r1 - wall, r2 = r2 - wall);
     }
 }
 
@@ -105,14 +96,17 @@ module lid()
             // make a small rounded bottom.
             union()
             {
-                up(lid_height / 2) scale([ 1, 1, 4 / r ])
+                up(lid_height / 2) scale([ 1, 1, 5 / r ])
                 {
                     sphere(r = r);
                 }
                 cyl(l = lid_height, r = r);
             }
-            down(wall) cyl(l = lid_height, r = r - wall);
-            down(thread_length / 1.42) lip_thread();
+            down(wall)
+            {
+                cyl(l = lid_height, r = r - wall);
+                lip_thread();
+            }
         }
     }
 }
