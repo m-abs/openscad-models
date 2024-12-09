@@ -14,6 +14,6 @@ pusher_top_width = pusher_top_inner_diameter + pusher_wall * 2;
 pusher_top_height = 70;
 
 pusher_thread_length = 8;
-pusher_lid_height = pusher_thread_length - pusher_wall;
+pusher_lid_height = pusher_thread_length + pusher_wall;
 
 // END pusher constants

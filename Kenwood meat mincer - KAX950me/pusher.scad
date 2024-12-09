@@ -4,13 +4,7 @@ use <../libraries/BOSL/masks.scad>
 use <../libraries/BOSL/shapes.scad>
 use <../libraries/BOSL/threading.scad>
 use <../libraries/BOSL/transforms.scad>
-
-// Make the lip thread.
-// It will be added to the top of the pusher and cut out of the bottom of the lid.
-module lip_thread()
-{
-    threaded_rod(d = pusher_top_width, l = pusher_thread_length, pitch = 1.5, bevel = true, align = V_TOP, $fn = 160);
-}
+use <./shared.scad>
 
 // Make the top piece of the pusher, it has a round bottom and a straight top.
 module top_piece()
@@ -40,7 +34,7 @@ module top_piece()
         union()
         {
             cyl(l = h, r = r, align = V_TOP, $fn = 360);
-            up(h) lip_thread();
+            up(h) pusher_lid_thread();
         }
         down(1) cyl(l = h + pusher_wall * 2 + pusher_thread_length, r = r - pusher_wall, align = V_TOP, $fn = 140);
     }
@@ -73,25 +67,4 @@ module pusher()
     }
 }
 
-module lid()
-{
-    ymove(100) difference()
-    {
-        r = pusher_top_width / 2 + pusher_wall;
-
-        // make a small rounded bottom.
-        union()
-        {
-            up(pusher_lid_height) scale([ 1, 1, 5 / r ]) staggered_sphere(r = r, align = V_TOP, $fn = 180);
-            cyl(l = pusher_lid_height, r = r, align = V_TOP, $fn = 160);
-        }
-        down(pusher_wall)
-        {
-            cyl(l = pusher_lid_height, r = r - pusher_wall, align = V_TOP);
-            lip_thread();
-        }
-    }
-}
-
 pusher();
-lid();
