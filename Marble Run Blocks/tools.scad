@@ -1,33 +1,38 @@
-include <../libraries/BOSL/constants.scad>
-use <../libraries/BOSL/masks.scad>
-use <../libraries/BOSL/shapes.scad>
-use <../libraries/BOSL/transforms.scad>
+include <../libraries/BOSL2/std.scad>
 
-tunnel_width = 21;
+tunnel_width = 20;
+
+end_bottom_plate_up = 1;
+end_bottom_plate_width = 25;
+end_bottom_plate_single_length = 38;
+end_bottom_plate_double_length = end_bottom_plate_single_length * 2;
+end_bottom_plate_thickness = 1;
 
 support_single_filename = "MarbleRunBlocks-SupportSimple.stl";
 support_double_filename = "MarbleRunBlocks-SupportDouble.stl";
+cattle_support_single_filename = "MarbleRunBlocks-CastleSupportSimple.stl";
+cattle_support_double_filename = "MarbleRunBlocks-CastleSupportDouble.stl";
+end_block_filename = "MarbleRunBlocks-End.stl";
 grid2by2_filename = "MarbleRunBlocks-Grid2x2.stl";
 
 module marbleTunnel(length = 42)
 {
     tunnel_circle_radius = 9.5;
-    tunnel_edge = 2.039;
+    tunnel_straight_middle = tunnel_width - tunnel_circle_radius * 2;
 
-    down(1) union()
+    for (i = [ 0, 1 ])
     {
-        cube([ tunnel_edge, length, tunnel_width ], center = true);
-        cube([ tunnel_width, length, tunnel_edge ], center = true);
+        yrot(90 * i) cube([ tunnel_straight_middle, length, tunnel_width ], anchor = CENTER);
+    }
 
-        for (i = [ -1, 1 ])
+    for (i = [ -1, 1 ])
+    {
+        up((tunnel_width - tunnel_circle_radius * 2) / 2 * i)
         {
-            up((tunnel_width - tunnel_circle_radius * 2) / 2 * i)
-            {
-                left((tunnel_width - tunnel_circle_radius * 2) / 2) xrot(-90)
-                    cylinder(r = tunnel_circle_radius, h = length, center = true);
-                right((tunnel_width - tunnel_circle_radius * 2) / 2) xrot(-90)
-                    cylinder(r = tunnel_circle_radius, h = length, center = true);
-            }
+            left((tunnel_width - tunnel_circle_radius * 2) / 2)
+                cylinder(r = tunnel_circle_radius, h = length, anchor = CENTER, orient = FORWARD, $fn = 80);
+            right((tunnel_width - tunnel_circle_radius * 2) / 2)
+                cylinder(r = tunnel_circle_radius, h = length, anchor = CENTER, orient = FORWARD, $fn = 80);
         }
     }
 }

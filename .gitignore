@@ -1,2 +1,3 @@
 *.stl
+*.json
 .DS_Store
