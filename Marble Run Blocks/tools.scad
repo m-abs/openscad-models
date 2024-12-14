@@ -1,5 +1,17 @@
 include <../libraries/BOSL2/std.scad>
 
+// Block sizes.
+
+// A full block is 40x40x40mm + 2mm on top for the pegs.
+block_width = 40;
+block_height = 40;
+pegs_height = 2;
+peg_socket_height = 4; // From base.
+
+half_block_height = block_height / 2;
+
+corner_height = 3;
+
 tunnel_width = 20;
 
 end_bottom_plate_up = 1;
