@@ -14,7 +14,6 @@ corner_height = 3;
 
 tunnel_width = 20;
 
-end_bottom_plate_up = 1;
 end_bottom_plate_width = 25;
 end_bottom_plate_single_length = 38;
 end_bottom_plate_double_length = end_bottom_plate_single_length * 2;

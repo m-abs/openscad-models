@@ -27,14 +27,10 @@ if (mode == 1)
 
     if (add_bottom)
     {
-        up(end_bottom_plate_up)
+        for (i = [ 0, 1 ])
         {
-            for (i = [ 0, 1 ])
-            {
-                zrot(90 * i)
-                    cube([ end_bottom_plate_width, end_bottom_plate_single_length, end_bottom_plate_thickness ],
-                         anchor = BOTTOM);
-            }
+            zrot(90 * i) cube([ end_bottom_plate_width, end_bottom_plate_single_length, end_bottom_plate_thickness ],
+                              anchor = BOTTOM);
         }
     }
 }
@@ -63,20 +59,17 @@ else if (mode == 2)
             cube([ 20, 20, 40 ], center = true);
         }
     }
+
     if (add_bottom)
     {
-        up(end_bottom_plate_up)
+        for (i = [ -1, 1 ])
         {
-            for (i = [ -1, 1 ])
-            {
-                left(20 * i)
-                    cube([ end_bottom_plate_width, end_bottom_plate_single_length, end_bottom_plate_thickness ],
-                         anchor = BOTTOM);
-            }
-
-            zrot(90) cube([ end_bottom_plate_width, end_bottom_plate_double_length, end_bottom_plate_thickness ],
-                          anchor = BOTTOM);
+            left(20 * i) cube([ end_bottom_plate_width, end_bottom_plate_single_length, end_bottom_plate_thickness ],
+                              anchor = BOTTOM);
         }
+
+        zrot(90) cube([ end_bottom_plate_width, end_bottom_plate_double_length, end_bottom_plate_thickness ],
+                      anchor = BOTTOM);
     }
 }
 else if (mode == 3)
@@ -108,19 +101,16 @@ else if (mode == 3)
 
     if (add_bottom)
     {
-        up(end_bottom_plate_up)
+        for (j = [ 0, 1 ])
         {
-            for (j = [ 0, 1 ])
+            zrot(90 * j)
             {
-                zrot(90 * j)
+                for (i = [ -1, 1 ])
                 {
-                    for (i = [ -1, 1 ])
-                    {
-                        left(20 * i) cube([ end_bottom_plate_width, 75, end_bottom_plate_thickness ], anchor = BOTTOM);
-                    }
-
-                    cube([ 4, 75, end_bottom_plate_thickness ], anchor = BOTTOM);
+                    left(20 * i) cube([ end_bottom_plate_width + 1, 75, end_bottom_plate_thickness ], anchor = BOTTOM);
                 }
+
+                cube([ 4, 73.5, end_bottom_plate_thickness ], anchor = BOTTOM);
             }
         }
     }

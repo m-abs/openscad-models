@@ -2,7 +2,7 @@ include <../libraries/BOSL2/std.scad>
 include <./tools.scad>
 
 // Build mode
-mode = 1; // [1:Corner,2:Full block,3:Steps,4:Corner with steps,5:Double full block]
+mode = 1; // [1:Corner,2:Full block,3:Steps,4:Corner with steps,5:Double full block,6:Reverse steps,7:L,8:Reverse L]
 
 module load_support()
 {
@@ -124,5 +124,45 @@ else if (mode == 5)
     left(block_width)
     {
         make_full_block();
+    }
+}
+else if (mode == 6)
+{
+    up(half_block_height) load_support();
+    left(block_width)
+    {
+        make_full_block();
+    }
+}
+else if (mode == 7)
+{
+    load_support();
+    right(block_width)
+    {
+        load_support();
+        fwd(block_width)
+        {
+            load_support();
+            fwd(block_width)
+            {
+                load_support();
+            }
+        }
+    }
+}
+else if (mode == 8)
+{
+    load_support();
+    left(block_width)
+    {
+        load_support();
+        fwd(block_width)
+        {
+            load_support();
+            fwd(block_width)
+            {
+                load_support();
+            }
+        }
     }
 }
