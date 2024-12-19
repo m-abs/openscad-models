@@ -16,18 +16,51 @@ What you'll find here are extras that I made for myself.
 
 The standard `Grid2x2` makes is more difficult to place the blocks, so I made larger version.
 
-How to use this:
+You need to copy the `MarbleRunBlocks-Grid2x2.stl`-file from the Starter pack into this folder.
 
-1. You need to copy the `MarbleRunBlocks-Grid2x2.stl`-file from the Starter pack into this folder
-2. Modify the `x_repeats` and `y-repeats` variables to the desired size in `extended-build-plate.scad` and render it.
+When you open `extended-build-plate.scad` in OpenSCAD and set how mean repeats you want along the x and y axis. Render and export to STL.
 
 In my set I printed two 3 by 2 and two 3 by 4.
 
 ### Custom end block
 
-The standard end block is huge, so this one helps us make a smaller one.
+I had some issues with the standard end block. It is very big 4 by 4 and it doesn't have bottom, which limits how you can place it.
 
-How to use:
+So with `custom-end-block.scad` you can create new end blocks or add a bottom to the original 4 by 4 end block.
 
-1. You need to copy `MarbleRunBlocks-SupportSimple.stl` and `MarbleRunBlocks-SupportDouble.stl` from the Starter pack into this folder.
-2. Use `custom-end-block.scad` to generate either a simple or double sized end block. You select switch by changing mode = 1 for simple and mode = 2 for double.
+To use this, you need to copy three files from the Starter pack.
+
+* `MarbleRunBlocks-SupportSimple.stl`
+* `MarbleRunBlocks-SupportDouble.stl`
+* `MarbleRunBlocks-End.stl`
+
+In OpenSCAD you can use the Customizer to select the size of the end block and add a bottom to it.
+Render and export to STL.
+
+### More support blocks
+
+The standard support blocks from both the starter and castle packs don't give enough stability for taller builds, so I added some more.
+
+Use `supports.scad` adds more support blocks.
+
+To use this you need `MarbleRunBlocks-SupportSimple.stl` from the starter pack.
+
+There are 8 variations for now.
+
+1. Corner - a simple corner.
+2. Full block - a 40x40x42 support block.
+3. Steps - a step support block 1x 40x40x22 followed by a full block.
+4. Corner with steps - Step around a corner. (Not very useful at the moment).
+5. Double full block - 2x full support blocks.
+6. Reverse steps - Similar to steps but the support blocks align on the top.
+7. L - A longer corner piece shaped like a L.
+8. Reverse L - Mirrored L piece.
+
+### Going down
+
+Send the marble straight down. It is meant to be placed on a start block.
+This can be used to get the marble down to the level below and turn at the same time.
+
+To use this you need the `MarbleRunBlocks-Start.stl` from the starter pack.
+
+Open `going-down.scad` in OpenSCAD, render and export. There are no settings.
