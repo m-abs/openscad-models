@@ -1,28 +1,48 @@
 include <../libraries/BOSL2/std.scad>
 
+EDGES_TOP_AND_SIDES = [ [ 0, 0, 1, 1 ], [ 0, 0, 1, 1 ], [ 1, 1, 1, 1 ] ];
+
 // Block sizes.
 
 // A full block is 40x40x40mm + 2mm on top for the pegs.
 block_width = 40;
 block_height = 40;
-pegs_height = 2;
-peg_socket_height = 4; // From base.
 
 half_block_height = block_height / 2;
+double_block_height = block_height * 2;
+
+// Peg sizes.
+peg_width = 3.4;
+peg_height = 2;
+peg_offset_side = 2.8;                                        // From side.
+peg_offset = (block_width - peg_width) / 2 - peg_offset_side; // From center.
+
+// Peg socket sizes.
+peg_socket_width = 4;
+peg_socket_height = 4;                                                              // From base.
+peg_socket_offset_side = 2.5;                                                       // From size.
+peg_socket_offset = (block_width - peg_socket_height) / 2 - peg_socket_offset_side; // From center.
+
+middle_cutout_width = 20;
+middle_cutout_height = 8; // From base.
 
 corner_height = 3;
 
+// Tunnel sizes.
 tunnel_width = 20;
+tunnel_circle_radius = 9.5;
 
+// End block sizes.
 end_bottom_plate_width = 25;
 end_bottom_plate_single_length = 38;
 end_bottom_plate_double_length = end_bottom_plate_single_length * 2;
 end_bottom_plate_thickness = 1;
 
+// File names
 support_single_filename = "MarbleRunBlocks-SupportSimple.stl";
 support_double_filename = "MarbleRunBlocks-SupportDouble.stl";
-cattle_support_single_filename = "MarbleRunBlocks-CastleSupportSimple.stl";
-cattle_support_double_filename = "MarbleRunBlocks-CastleSupportDouble.stl";
+castle_support_single_filename = "MarbleRunBlocks-CastleSupportSimple.stl";
+castle_support_double_filename = "MarbleRunBlocks-CastleSupportDouble.stl";
 end_block_filename = "MarbleRunBlocks-End.stl";
 grid2by2_filename = "MarbleRunBlocks-Grid2x2.stl";
 
