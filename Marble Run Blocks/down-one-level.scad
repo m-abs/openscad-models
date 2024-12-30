@@ -7,7 +7,7 @@ block_outer_chamfer = 0.5;
 // Description: Make a peg for the top of a Marble Run Block.
 module marbleRunPeg()
 {
-    tag("keep") position(TOP) cuboid([ peg_width, peg_width, peg_height ], chamfer = 0.25, edges = EDGES_TOP_AND_SIDES);
+    keep() position(TOP) cuboid([ peg_width, peg_width, peg_height ], chamfer = 0.25, edges = EDGES_TOP_AND_SIDES);
 }
 
 // Module: marbleRunPegs()
@@ -15,7 +15,7 @@ module marbleRunPeg()
 // Assumes anchor = CENTER for the block.
 // Arguments:
 //   bHeight: The height of the block - needed for alignment.
-module pegs(bHeight)
+module marbleRunTopPegs(bHeight)
 {
     for (i = [ -1, 1 ])
     {
@@ -30,16 +30,14 @@ module pegs(bHeight)
 // Description: Make a peg socket cutout for the bottom of a Marble Run Block.
 module marbleRunPegSocketCutout()
 {
-    tag("remove") position(BOTTOM) cuboid([ peg_socket_width, peg_socket_width, peg_socket_height ], anchor = BOTTOM,
-                                          chamfer = -block_outer_chamfer, edges = BOTTOM);
+    remove() position(BOTTOM) cuboid([ peg_socket_width, peg_socket_width, peg_socket_height ], anchor = BOTTOM,
+                                     chamfer = -block_outer_chamfer, edges = BOTTOM);
 }
 
 // Module: marbleRunAllFourPegSocketsCutout()
 // Description: Make peg socket cutouts for the bottom of a Marble Run Block.
 // Assumes anchor = CENTER for the block.
-// Arguments:
-//   bHeight: The height of the block - needed for alignment.
-module marbleRunAllFourPegSocketsCutout(bHeight)
+module marbleRunAllFourPegSocketsCutout()
 {
     for (i = [ -1, 1 ])
     {
@@ -52,29 +50,32 @@ module marbleRunAllFourPegSocketsCutout(bHeight)
 
 // Module: marbleRunBottomCutout()
 // Description: Make a cutout square in the middle of the bottom of a Marble Run Block.
-// Arguments:
-//   bHeight: The height of the block - needed for alignment.
-module marbleRunBottomCutout(bHeight)
+module marbleRunBottomCutout()
 {
-    tag("remove") position(BOTTOM) cuboid([ middle_cutout_width, middle_cutout_width, middle_cutout_height ],
-                                          anchor = BOTTOM, chamfer = -block_outer_chamfer, edges = BOTTOM);
+    remove() position(BOTTOM) cuboid([ middle_cutout_width, middle_cutout_width, middle_cutout_height ],
+                                     anchor = BOTTOM, chamfer = -block_outer_chamfer, edges = BOTTOM);
 }
 
 // Module: marbleRunBlock()
 // Description: Make a Marble Run Block.
 // Arguments:
 //   bHeight: The desired height of the block. Usually half_block_height, block_height or double_block_height.
-module marbleRunBlock(bHeight)
+//   cutoutMiddlePiece: Should bottom middle be cut out?
+module marbleRunBlock(bHeight, cutoutMiddlePiece = true)
 {
+    assert(bHeight % half_block_height == 0, "Block height must be a multiple of 20 mm");
     diff()
     {
-        cuboid([ block_width, block_width, bHeight ], anchor = CENTER, chamfer = block_outer_chamfer)
+        cuboid([ block_width, block_width, bHeight ], anchor = BOTTOM, chamfer = block_outer_chamfer)
         {
-            pegs(bHeight);
+            marbleRunTopPegs();
 
-            marbleRunBottomCutout(bHeight);
+            if (cutoutMiddlePiece)
+            {
+                marbleRunBottomCutout();
+            }
 
-            marbleRunAllFourPegSocketsCutout(bHeight);
+            marbleRunAllFourPegSocketsCutout();
 
             children();
         }
@@ -91,5 +92,19 @@ marbleRunBlock(double_block_height)
         move([ -20, 0, -20 ]) * yrot(90),
     ];
 
-    tag("remove") sweep(shape, tForms, closed = false, caps = true);
+    remove() position(CENTER) sweep(shape, tForms, closed = false, caps = true);
 }
+
+/*
+tForms = [
+    for (a = [90:-5:0]) xrot(a, cp = [ 0, -20 ]),
+    for (a = [0:5:90]) yrot(a, cp = [ -20, 0 ]),
+    move([ -20, 0, -20 ]) * yrot(90),
+];
+
+shape = rect([ tunnel_width + 5, tunnel_width + 5 ], rounding = 9.5 + 2.5, anchor = CENTER, $fn = 160);
+shape2 = rect([ tunnel_width, tunnel_width ], rounding = 9.5, anchor = CENTER, $fn = 160);
+sweep([ shape2, shape ], tForms, closed = false, caps = true, $fn = 160); */
+
+/* cuboid([ support_column_width, support_column_width, half_block_height ], anchor = CENTER,
+       chamfer = block_outer_chamfer); */

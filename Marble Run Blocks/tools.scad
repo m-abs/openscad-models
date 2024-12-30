@@ -71,3 +71,17 @@ module marbleTunnel(length = 42)
         }
     }
 }
+
+// Module: keep()
+// Synopsis: Wrapper for tag("keep")
+module keep()
+{
+    tag("keep") children();
+}
+
+// Module: remove()
+// Synopsis: Wrapper for tag("remove")
+module remove()
+{
+    tag("remove") children();
+}
