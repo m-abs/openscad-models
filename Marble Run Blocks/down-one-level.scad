@@ -1,13 +1,13 @@
 include <../libraries/BOSL2/std.scad>
 include <./tools.scad>
 
-outer_chamfer = 0.5;
+block_outer_chamfer = 0.5;
 
 // Module: marbleRunPeg()
 // Description: Make a peg for the top of a Marble Run Block.
 module marbleRunPeg()
 {
-    cuboid([ peg_width, peg_width, peg_height ], anchor = CENTER, chamfer = 0.25, edges = EDGES_TOP_AND_SIDES);
+    tag("keep") position(TOP) cuboid([ peg_width, peg_width, peg_height ], chamfer = 0.25, edges = EDGES_TOP_AND_SIDES);
 }
 
 // Module: marbleRunPegs()
@@ -17,14 +17,11 @@ module marbleRunPeg()
 //   bHeight: The height of the block - needed for alignment.
 module pegs(bHeight)
 {
-    up((bHeight + peg_height) / 2)
+    for (i = [ -1, 1 ])
     {
-        for (i = [ -1, 1 ])
+        for (j = [ -1, 1 ])
         {
-            for (j = [ -1, 1 ])
-            {
-                left(peg_offset * i) back(peg_offset * j) marbleRunPeg();
-            }
+            left(peg_offset * i) back(peg_offset * j) marbleRunPeg();
         }
     }
 }
@@ -33,8 +30,8 @@ module pegs(bHeight)
 // Description: Make a peg socket cutout for the bottom of a Marble Run Block.
 module marbleRunPegSocketCutout()
 {
-    cuboid([ peg_socket_width, peg_socket_width, peg_socket_height ], anchor = CENTER, chamfer = -outer_chamfer,
-           edges = BOTTOM);
+    tag("remove") position(BOTTOM) cuboid([ peg_socket_width, peg_socket_width, peg_socket_height ], anchor = BOTTOM,
+                                          chamfer = -block_outer_chamfer, edges = BOTTOM);
 }
 
 // Module: marbleRunAllFourPegSocketsCutout()
@@ -44,14 +41,11 @@ module marbleRunPegSocketCutout()
 //   bHeight: The height of the block - needed for alignment.
 module marbleRunAllFourPegSocketsCutout(bHeight)
 {
-    down((bHeight - peg_socket_height) / 2)
+    for (i = [ -1, 1 ])
     {
-        for (i = [ -1, 1 ])
+        for (j = [ -1, 1 ])
         {
-            for (j = [ -1, 1 ])
-            {
-                left(peg_socket_offset * i) back(peg_socket_offset * j) marbleRunPegSocketCutout();
-            }
+            left(peg_socket_offset * i) back(peg_socket_offset * j) marbleRunPegSocketCutout();
         }
     }
 }
@@ -62,9 +56,8 @@ module marbleRunAllFourPegSocketsCutout(bHeight)
 //   bHeight: The height of the block - needed for alignment.
 module marbleRunBottomCutout(bHeight)
 {
-    down((bHeight - middle_cutout_height) / 2)
-        cuboid([ middle_cutout_width, middle_cutout_width, middle_cutout_height ], anchor = CENTER,
-               chamfer = -outer_chamfer, edges = BOTTOM);
+    tag("remove") position(BOTTOM) cuboid([ middle_cutout_width, middle_cutout_width, middle_cutout_height ],
+                                          anchor = BOTTOM, chamfer = -block_outer_chamfer, edges = BOTTOM);
 }
 
 // Module: marbleRunBlock()
@@ -73,24 +66,23 @@ module marbleRunBottomCutout(bHeight)
 //   bHeight: The desired height of the block. Usually half_block_height, block_height or double_block_height.
 module marbleRunBlock(bHeight)
 {
-    difference()
+    diff()
     {
-        union()
+        cuboid([ block_width, block_width, bHeight ], anchor = CENTER, chamfer = block_outer_chamfer)
         {
-            cuboid([ block_width, block_width, bHeight ], anchor = CENTER, chamfer = outer_chamfer);
             pegs(bHeight);
+
+            marbleRunBottomCutout(bHeight);
+
+            marbleRunAllFourPegSocketsCutout(bHeight);
+
+            children();
         }
-
-        marbleRunBottomCutout(bHeight);
-
-        marbleRunAllFourPegSocketsCutout(bHeight);
     }
 }
 
-difference()
+marbleRunBlock(double_block_height)
 {
-    marbleRunBlock(double_block_height);
-
     shape = [rect([ tunnel_width, tunnel_width ], rounding = 9.5, anchor = CENTER, $fn = 160)];
 
     tForms = [
@@ -99,5 +91,5 @@ difference()
         move([ -20, 0, -20 ]) * yrot(90),
     ];
 
-    sweep(shape, tForms, closed = false, caps = true, $fn = 160);
+    tag("remove") sweep(shape, tForms, closed = false, caps = true);
 }

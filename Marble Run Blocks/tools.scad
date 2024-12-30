@@ -32,6 +32,10 @@ corner_height = 3;
 tunnel_width = 20;
 tunnel_circle_radius = 9.5;
 
+// support sizes
+support_column_width = 10;
+support_inner_corner_cutout = 3.5;
+
 // End block sizes.
 end_bottom_plate_width = 25;
 end_bottom_plate_single_length = 38;
