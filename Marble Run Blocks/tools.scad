@@ -48,6 +48,7 @@ support_double_filename = "MarbleRunBlocks-SupportDouble.stl";
 castle_support_single_filename = "MarbleRunBlocks-CastleSupportSimple.stl";
 castle_support_double_filename = "MarbleRunBlocks-CastleSupportDouble.stl";
 end_block_filename = "MarbleRunBlocks-End.stl";
+start_block_filename = "MarbleRunBlocks-Start.stl";
 grid2by2_filename = "MarbleRunBlocks-Grid2x2.stl";
 
 module marbleTunnel(length = 42)
