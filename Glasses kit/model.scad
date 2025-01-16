@@ -1,6 +1,6 @@
 include <../libraries/BOSL2/std.scad>
 
-mode = "drawer"; // [drawer, outer_case]
+mode = "Make container"; // [Make container, Make lid]
 
 module model_cuboid(length, width, height, anchor = CENTER)
 {
@@ -11,83 +11,83 @@ module model_cuboid(length, width, height, anchor = CENTER)
     }
 }
 
-module inner_drawer(anchor, padding = 0)
+module inner_space(anchor)
 {
-    model_cuboid(drawer_length, drawer_width + padding, drawer_height + padding, anchor = anchor)
+    model_cuboid(drawer_length - lid_inner_length, drawer_width, drawer_height, anchor = anchor)
     {
+        position(RIGHT) right(lid_inner_length / 2) model_cuboid(lid_inner_length, drawer_width + -wall_thickness,
+                                                                 drawer_height + -wall_thickness, anchor = CENTER);
         children();
     }
 }
 
-wall_thickness = 1.15;
+wall_thickness = 2.5;
 
 // Spray bottle size
 sb_length = 63;
 sb_diameter = 13;
 
 inner_length = 86;
-inner_width = sb_diameter * 3;
+inner_width = sb_diameter * 4;
 inner_height = sb_diameter + 0.5;
-
-rounding = inner_height / 2;
 
 drawer_length = inner_length;
 drawer_width = inner_width + 2 * wall_thickness;
 drawer_height = inner_height + 2 * wall_thickness;
 
-outer_length = drawer_length + 2 * wall_thickness;
-outer_width = drawer_width + 2 * wall_thickness;
-outer_height = drawer_height + 2 * wall_thickness;
+lid_inner_length = 20;
+lid_length = lid_inner_length + 2 * wall_thickness;
+lid_width = drawer_width;
+lid_height = drawer_height;
 
-outer_rounding = outer_height / 2;
-
-module outer_case()
+module top_lid()
 {
     diff()
     {
-        model_cuboid(outer_length, outer_width, outer_height, anchor = BOTTOM)
+        model_cuboid(lid_length, lid_width, lid_height, anchor = LEFT + BOTTOM)
         {
-            tag("remove") position(LEFT) inner_drawer(LEFT, padding = 0.1);
+            tag("remove") position(LEFT) inner_space(RIGHT);
         }
     }
 }
 
 module spray_bottle_tube()
 {
-    diff()
+    difference()
     {
-        tube(ir = inner_height / 2, h = inner_length, wall = wall_thickness, anchor = FWD + TOP, orient = LEFT,
-             teardrop = true, $fn = 120)
-        {
-            tag("remove") position(FRONT) back(2) cyl(inner_length, sb_diameter / 3, anchor = CENTER);
-        }
+        fwd(wall_thickness / 2 + 0.1) tube(ir = inner_height / 2, h = sb_length, wall = wall_thickness / 2,
+                                           anchor = BACK, orient = LEFT, teardrop = true, $fn = 120);
+        fwd(inner_height + sb_diameter / 3.5) cyl(sb_length, sb_diameter / 3.5, orient = LEFT);
     }
 }
 
-module drawer()
+module make_container()
 {
     diff()
     {
-        inner_drawer(LEFT + BOTTOM)
+        inner_space(LEFT + BOTTOM)
         {
             position(LEFT)
             {
-                tag("remove") model_cuboid(inner_length, inner_width, inner_height, anchor = LEFT);
+                // Make hollow space.
+                tag_this("remove") model_cuboid(inner_length * 2, inner_width, inner_height, anchor = LEFT);
 
-                left(wall_thickness * 2) model_cuboid(wall_thickness * 2, outer_width, outer_height, anchor = LEFT);
+                // Bottom wall
+                left(wall_thickness) tag_this("keep")
+                    model_cuboid(wall_thickness, drawer_width, drawer_height, anchor = LEFT);
             }
+
+            // Tube for the spray bottle
+            position(BACK) tag_this("keep") spray_bottle_tube();
         }
     }
-
-    // Tube for the spray bottle
-    up(inner_height / 2 + wall_thickness) back(inner_height / 2 - 2 * wall_thickness) spray_bottle_tube();
 }
 
-if (mode == "drawer")
+if (mode == "Make container")
 {
-    drawer();
+    make_container();
 }
-else if (mode == "outer_case")
+else if (mode == "Make lid")
 {
-    outer_case();
+    top_lid();
 }
