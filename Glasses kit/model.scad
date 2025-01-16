@@ -19,11 +19,11 @@ module inner_drawer(anchor, padding = 0)
     }
 }
 
-wall_thickness = 1.25;
+wall_thickness = 1.15;
 
 // Spray bottle size
 sb_length = 63;
-sb_diameter = 12;
+sb_diameter = 13;
 
 inner_length = 86;
 inner_width = sb_diameter * 3;
@@ -52,6 +52,18 @@ module outer_case()
     }
 }
 
+module spray_bottle_tube()
+{
+    diff()
+    {
+        tube(ir = inner_height / 2, h = inner_length, wall = wall_thickness, anchor = FWD + TOP, orient = LEFT,
+             teardrop = true, $fn = 120)
+        {
+            tag("remove") position(FRONT) back(2) cyl(inner_length, sb_diameter / 3, anchor = CENTER);
+        }
+    }
+}
+
 module drawer()
 {
     diff()
@@ -64,12 +76,11 @@ module drawer()
 
                 left(wall_thickness * 2) model_cuboid(wall_thickness * 2, outer_width, outer_height, anchor = LEFT);
             }
-
-            // Tube for the spray bottle
-            position(BACK) tag("keep") tube(ir = inner_height / 2, h = inner_length, wall = wall_thickness,
-                                            anchor = BACK, orient = LEFT, teardrop = true, $fn = 120);
         }
     }
+
+    // Tube for the spray bottle
+    up(inner_height / 2 + wall_thickness) back(inner_height / 2 - 2 * wall_thickness) spray_bottle_tube();
 }
 
 if (mode == "drawer")
