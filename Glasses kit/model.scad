@@ -36,7 +36,7 @@ drawer_width = inner_width + 2 * wall_thickness;
 drawer_height = inner_height + 2 * wall_thickness;
 
 lid_inner_length = 20;
-lid_length = lid_inner_length + 2 * wall_thickness;
+lid_length = lid_inner_length + wall_thickness;
 lid_width = drawer_width;
 lid_height = drawer_height;
 
@@ -46,7 +46,12 @@ module top_lid()
     {
         model_cuboid(lid_length, lid_width, lid_height, anchor = LEFT + BOTTOM)
         {
-            tag("remove") position(LEFT) inner_space(RIGHT);
+            position(RIGHT) left(wall_thickness / 2) tag("keep") model_cuboid(wall_thickness, lid_width, lid_height);
+            tag("remove")
+            {
+                position(LEFT) inner_space(RIGHT);
+                position(RIGHT) left(lid_inner_length / 3) cyl(h = lid_height, r = 0.25);
+            }
         }
     }
 }
