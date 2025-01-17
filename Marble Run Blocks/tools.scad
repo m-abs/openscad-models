@@ -11,6 +11,8 @@ block_height = 40;
 half_block_height = block_height / 2;
 double_block_height = block_height * 2;
 
+block_outer_chamfer = 0.5;
+
 // Peg sizes.
 peg_width = 3.4;
 peg_height = 2;
