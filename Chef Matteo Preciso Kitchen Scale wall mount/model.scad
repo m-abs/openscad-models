@@ -12,7 +12,7 @@ module screw_hole()
 
 module make()
 {
-    wall_thickness = make_screw_hole ? 4 : 2.5;
+    wall_thickness = 2;
     inner_width = 133.5;
     inner_length = 190;
     inner_height = 30;
@@ -20,7 +20,8 @@ module make()
     front_length = 41;
     front_height = 16;
 
-    wedge_width = inner_width + 2 * wall_thickness;
+    outer_width = inner_width + 2 * wall_thickness;
+    wedge_width = outer_width;
     wedge_length = inner_length - front_length;
     wedge_height = inner_height + wall_thickness;
 
@@ -41,6 +42,8 @@ module make()
 
             if (make_screw_hole)
             {
+                position(LEFT) left(wall_thickness / 2) cuboid([ wall_thickness, outer_width, inner_length ]);
+
                 // Make screw holes
                 tag("remove")
                 {
