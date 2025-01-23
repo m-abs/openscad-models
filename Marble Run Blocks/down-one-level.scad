@@ -1,7 +1,7 @@
 include <../libraries/BOSL2/std.scad>
 include <./tools.scad>
 
-block_outer_chamfer = 0.5;
+mode = 3; // [1:Top, 2:Middle, 3:Bottom, 4:Full]
 
 // Module: marbleRunPeg()
 // Description: Make a peg for the top of a Marble Run Block.
@@ -82,29 +82,60 @@ module marbleRunBlock(bHeight, cutoutMiddlePiece = true)
     }
 }
 
-marbleRunBlock(double_block_height)
+module render(mode)
 {
-    shape = [rect([ tunnel_width, tunnel_width ], rounding = 9.5, anchor = CENTER, $fn = 160)];
+    shape = [rect([ tunnel_width, tunnel_width ], rounding = 9.5, $fn = 160)];
 
-    tForms = [
-        for (a = [90:-5:0]) xrot(a, cp = [ 0, -20 ]),
-        for (a = [0:5:90]) yrot(a, cp = [ -20, 0 ]),
-        move([ -20, 0, -20 ]) * yrot(90),
-    ];
+    bHeight = block_height;
+    cutoutMiddlePiece = true;
+    sweepPosition = TOP;
 
-    remove() position(CENTER) sweep(shape, tForms, closed = false, caps = true);
+    topPieceTForm = [for (a = [90:-5:0]) xrot(a, cp = [ 0, -20 ])];
+    bottomPieceTForm = [for (a = [0:5:90]) yrot(a, cp = [ -20, 0 ])];
+
+    if (mode == 1)
+    {
+        cutoutMiddlePiece = false;
+        tForms = topPieceTForm;
+        sweepPosition = TOP;
+
+        marbleRunBlock(block_height, false)
+        {
+            remove() position(TOP) down(block_height) sweep(shape, tForms, closed = false, caps = true);
+        }
+    }
+    else if (mode == 2)
+    {
+        cutoutMiddlePiece = false;
+        sweepPosition = CENTER;
+
+        marbleRunBlock(block_height, false)
+        {
+            remove() position(CENTER) cuboid([ tunnel_width, tunnel_width, block_height + 2 ], rounding = 9.5,
+                                             except = [ TOP, BOTTOM ], $fn = 160);
+        }
+    }
+    else if (mode == 3)
+    {
+        tForms = bottomPieceTForm;
+        sweepPosition = TOP;
+
+        marbleRunBlock(block_height)
+        {
+            remove() position(TOP) sweep(shape, tForms, closed = false, caps = true);
+        }
+    }
+    else if (mode == 4)
+    {
+        tForms = concat(topPieceTForm, bottomPieceTForm);
+        bHeight = double_block_height;
+        sweepPosition = CENTER;
+
+        marbleRunBlock(double_block_height)
+        {
+            remove() position(CENTER) #sweep(shape, tForms, closed = false, caps = true);
+        }
+    }
 }
 
-/*
-tForms = [
-    for (a = [90:-5:0]) xrot(a, cp = [ 0, -20 ]),
-    for (a = [0:5:90]) yrot(a, cp = [ -20, 0 ]),
-    move([ -20, 0, -20 ]) * yrot(90),
-];
-
-shape = rect([ tunnel_width + 5, tunnel_width + 5 ], rounding = 9.5 + 2.5, anchor = CENTER, $fn = 160);
-shape2 = rect([ tunnel_width, tunnel_width ], rounding = 9.5, anchor = CENTER, $fn = 160);
-sweep([ shape2, shape ], tForms, closed = false, caps = true, $fn = 160); */
-
-/* cuboid([ support_column_width, support_column_width, half_block_height ], anchor = CENTER,
-       chamfer = block_outer_chamfer); */
+render(mode);
