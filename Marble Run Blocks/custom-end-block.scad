@@ -12,7 +12,7 @@ if (mode == 1)
     difference()
     {
         // TODO: Castle support can't be rendered in OpenSCAD.
-        filename = mode == 1 ? support_single_filename : cattle_support_single_filename;
+        filename = mode == 1 ? support_single_filename : castle_support_single_filename;
         import(filename);
 
         union()
@@ -39,7 +39,7 @@ else if (mode == 2)
     difference()
     {
         // TODO: Castle support can't be rendered in OpenSCAD.
-        filename = mode == 2 ? support_double_filename : cattle_support_double_filename;
+        filename = mode == 2 ? support_double_filename : castle_support_double_filename;
         import(filename);
 
         union()
