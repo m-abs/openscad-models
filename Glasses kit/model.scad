@@ -81,13 +81,13 @@ module make_model()
                     {
                         left(wall + 0.1)
                         {
-                            // Make the wider cutout part.
+                            // Make the narrower cutout part.
                             inner_lid(RIGHT, -half_wall);
 
-                            // Make the narrower cutout part.
+                            // Make the wider cutout part.
                             left(10)
                             {
-                                inner_lid(RIGHT);
+                                inner_lid(RIGHT, 0.005);
                             }
                         }
 
