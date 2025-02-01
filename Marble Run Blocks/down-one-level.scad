@@ -21,7 +21,7 @@ module marbleRunTopPegs(bHeight)
     {
         for (j = [ -1, 1 ])
         {
-            left(peg_offset * i) back(peg_offset * j) marbleRunPeg();
+            left(peg_offset * i) back(peg_offset * j) up(peg_height / 2) marbleRunPeg();
         }
     }
 }
