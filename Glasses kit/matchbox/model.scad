@@ -1,31 +1,10 @@
-include <../libraries/BOSL2/std.scad>
+include <../../libraries/BOSL2/std.scad>
 
-mode = "Make container"; // [Make container, Make lid]
+mode = "Make container"; // [Make container, Make lid, other]
+
 module model()
 {
-    wall = 2.5;
-    half_wall = wall / 2;
-
-    // Spray bottle size
-    sb_length = 63;
-    sb_diameter = 13;
-
-    container_length = 90;
-    container_width = sb_diameter * 4;
-    container_height = sb_diameter + wall + 0.5;
-
-    container_size = [ container_width, container_height ];
-    container_rounding = half_wall / 2;
-
-    if (mode == "Make lid")
-    {
-        rect_tube(h = container_length, isize = container_size, wall = half_wall, anchor = BOTTOM,
-                  rounding = container_rounding, $fn = 180)
-        {
-            position(BACK) fwd(half_wall) cuboid([ container_width - wall - 0.002, half_wall, container_length ]);
-        }
-    }
-    else if (mode == "Make container")
+    module container()
     {
         diff()
         {
@@ -44,6 +23,47 @@ module model()
                 tag("remove") position(BACK) fwd(half_wall / 2)
                     cuboid([ container_width - wall, half_wall + 0.002, container_length ]);
             }
+        }
+    }
+
+    module lid()
+    {
+        rect_tube(h = container_length, isize = container_size, wall = half_wall, anchor = BOTTOM,
+                  rounding = container_rounding, $fn = 180)
+        {
+            position(BACK) fwd(half_wall) cuboid([ container_width - wall - 0.002, half_wall, container_length ]);
+        }
+    }
+
+    wall = 2.5;
+    half_wall = wall / 2;
+
+    // Spray bottle size
+    sb_length = 63;
+    sb_diameter = 13;
+
+    container_length = 90;
+    container_width = sb_diameter * 4;
+    container_height = sb_diameter + wall + 0.5;
+
+    container_size = [ container_width, container_height ];
+    container_rounding = half_wall / 2;
+
+    if (mode == "Make lid")
+    {
+        lid();
+    }
+    else if (mode == "Make container")
+    {
+        container();
+    }
+    else
+    {
+
+        intersection()
+        {
+            lid();
+            container();
         }
     }
 }

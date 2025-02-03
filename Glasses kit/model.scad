@@ -60,7 +60,7 @@ module make_model()
     {
         diff()
         {
-            model_cuboid(lid_length + 10, lid_width, lid_height, anchor = LEFT + BOTTOM)
+            model_cuboid(lid_length + 15, lid_width, lid_height, anchor = LEFT + BOTTOM)
             {
                 tag("keep")
                 {
@@ -85,7 +85,7 @@ module make_model()
                             inner_lid(RIGHT, -half_wall);
 
                             // Make the wider cutout part.
-                            left(10)
+                            left(15)
                             {
                                 inner_lid(RIGHT, 0.005);
                             }
@@ -94,7 +94,7 @@ module make_model()
                         if (make_air_hole)
                         {
                             // Make the air hole in side of the lid
-                            left(lid_inner_length + 10)
+                            left(lid_inner_length)
                             {
                                 cyl(h = lid_height, r = 0.35, $fn = 6);
                             }
