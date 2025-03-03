@@ -1,7 +1,7 @@
 include <../libraries/BOSL2/std.scad>
 
 mode = "pill_box"; // [pill_box, lids]
-week_days = [ "M", "T", "O", "T", "F", "L", "S" ];
+week_days = [ "M", "Ti", "O", "To", "F", "L", "S" ];
 
 module make()
 {
