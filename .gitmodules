@@ -10,3 +10,4 @@
 [submodule "libraries/BOSL2"]
 	path = libraries/BOSL2
 	url = git@github.com:BelfrySCAD/BOSL2.git
+	branch = master
