@@ -1,14 +1,15 @@
 include <../libraries/BOSL2/std.scad>
 
-width = 250;
-length = 250;
-height = 300;
+width = 275;
+length = 275;
+height = 250;
 
 inner_height = 50;
 
 module model()
 {
-    outer_wall = 2;
+    outer_wall = 4;
+    inner_wall = 2.5;
 
     inner_width = max(width * 0.3, 30);
     inner_length = max(length * 0.3, 30);
@@ -16,15 +17,14 @@ module model()
     water_input_offset = 15;
     water_input_size = 30;
     water_hole_r = 2.25;
+    module water_intake_hole(size)
+    {
+        xrot(90) cyl(h = size + 1, r = water_hole_r, $fn = 16);
+    }
 
     // Make the connection between the water and the soil.
-    module water_hole()
+    module water_holes_cutout()
     {
-        module water_intake_hole()
-        {
-            up(outer_wall * 2 + water_hole_r) xrot(90) cyl(h = max(inner_width, inner_length), r = water_hole_r);
-        }
-
         // Space needed for the water intake holes
         // r*3 gives us diameter of the hole plus sensible padding.
         hole_size = (water_hole_r * 3);
@@ -33,51 +33,68 @@ module model()
         num_vertical_holes = floor(inner_height / hole_size) - 1;
 
         // Number of holes horizontally width side.
-        width_side_length = (inner_width - outer_wall * 2);
+        width_side_length = (inner_width - inner_wall * 2);
         num_width_side_holes = floor(width_side_length / hole_size) - 1;
 
         // Number of holes horizontally length side.
-        long_side_length = (inner_length - outer_wall * 2);
+        long_side_length = (inner_length - inner_wall * 2);
         num_long_side_holes = floor(long_side_length / hole_size) - 1;
 
-        // Make the holes in the long side
-        left(num_width_side_holes * hole_size / 2) for (i = [0:1:num_vertical_holes])
+        for (i = [0:1:num_vertical_holes])
         {
-            up(i * hole_size)
+            up(i * hole_size + water_hole_r + 0.1)
             {
-                water_intake_hole();
-                for (j = [0:1:num_width_side_holes])
+                // Make the holes in the width side
+                left(num_width_side_holes * hole_size / 2)
                 {
-                    right(j * hole_size) water_intake_hole();
+                    num_holes = i % 2 == 0 ? num_width_side_holes : num_width_side_holes - 1;
+                    for (j = [0:1:num_holes])
+                    {
+                        r = i % 2 == 0 ? j * hole_size : j * hole_size + hole_size / 2;
+                        right(r) water_intake_hole(inner_length);
+                    }
+                }
+
+                // Make the holes in the long side
+                fwd(num_long_side_holes * hole_size / 2) zrot(90)
+                {
+                    num_holes = i % 2 == 0 ? num_long_side_holes : num_long_side_holes - 1;
+                    for (j = [0:1:num_holes])
+                    {
+                        r = i % 2 == 0 ? j * hole_size : j * hole_size + hole_size / 2;
+                        right(r) water_intake_hole(inner_width);
+                    }
                 }
             }
         }
+    }
 
-        // Make the holes in the width side
-        fwd(num_long_side_holes * hole_size / 2) for (i = [0:1:num_vertical_holes])
+    module water_intake()
+    {
+        up(outer_wall - 0.1) rect_tube(h = inner_height, size = [ inner_width, inner_length ], wall = inner_wall,
+                                       rounding = inner_wall, anchor = BOTTOM)
         {
-            zrot(90) up(i * hole_size)
-            {
-                water_intake_hole();
-                for (j = [0:1:num_long_side_holes])
-                {
-                    right(j * hole_size) water_intake_hole();
-                }
-            }
+            tag("remove") position(BOTTOM) water_holes_cutout();
         }
     }
 
     // Make the water input funnel
     module water_funnel()
     {
-        cuboid([ water_input_size, water_input_size, height + water_input_offset ], rounding = outer_wall / 2,
+        water_input_height = height - water_input_offset;
+
+        cuboid([ water_input_size, water_input_size, water_input_height ], rounding = inner_wall / 2,
                anchor = BACK + TOP, edges = "Z")
 
         {
-            tag("remove") up(outer_wall)
-                cuboid([ water_input_size - outer_wall, water_input_size - outer_wall, height + water_input_offset ],
-                       rounding = outer_wall / 2, edges = "Z");
-            up(outer_wall) fwd(outer_wall) tag("remove") position(BOTTOM) wedge([ 30, 30, 30 ], anchor = BOTTOM);
+            water_input_size_inner = water_input_size - inner_wall * 2;
+            tag("remove")
+            {
+                cuboid([ water_input_size_inner, water_input_size_inner, water_input_height ],
+                       rounding = inner_wall / 2, edges = "Z");
+                fwd(inner_wall) position(BOTTOM)
+                    wedge([ water_input_size, water_input_size, water_input_size ], anchor = BOTTOM);
+            }
         }
     }
 
@@ -90,14 +107,10 @@ module model()
                 cuboid([ width, length, outer_wall ], rounding = outer_wall, anchor = BOTTOM, edges = "Z");
 
                 up(inner_height + outer_wall)
-                    rect_tube(h = 30, size2 = [ width, length ], size1 = [ inner_width, inner_length ],
+                    rect_tube(h = inner_height, size2 = [ width, length ], size1 = [ inner_width, inner_length ],
                               wall = outer_wall, rounding = outer_wall, anchor = BOTTOM);
 
-                up(outer_wall) rect_tube(h = inner_height, size = [ inner_width, inner_length ], wall = outer_wall,
-                                         rounding = outer_wall, anchor = BOTTOM)
-                {
-                    tag("remove") position(BOTTOM) water_hole();
-                }
+                water_intake();
             }
 
             up(water_input_offset) position(BACK + TOP) water_funnel();

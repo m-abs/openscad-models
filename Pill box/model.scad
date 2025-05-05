@@ -61,7 +61,17 @@ module make()
             }
             else
             {
+                if (i == 0)
+                {
+                    left((container_width + wall) / 2) cube([ wall, depth, container_height ], anchor = BOTTOM);
+                }
+
                 pill_box();
+
+                if (i == 6)
+                {
+                    right((container_width + wall) / 2) cube([ wall, depth, container_height ], anchor = BOTTOM);
+                }
             }
         }
     }
