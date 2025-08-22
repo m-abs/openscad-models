@@ -12,9 +12,8 @@ Make the pusher lip thread.
 
 It will be added to the top of the pusher and cut out of the bottom of the lid.
 */
-module pusher_lid_thread()
-{
-    threaded_rod(d = pusher_top_width, l = pusher_thread_length, pitch = 4, bevel = true, align = V_TOP, $fn = 160);
+module pusher_lid_thread() {
+  threaded_rod(d=pusher_top_width, l=pusher_thread_length, pitch=4, bevel=true, align=V_TOP, $fn=160);
 }
 
 // END - pusher shared code
