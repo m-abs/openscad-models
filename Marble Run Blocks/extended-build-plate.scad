@@ -12,26 +12,4 @@ include <./tools.scad>
 x_repeats = 2;
 y_repeats = 3;
 
-module buildPlate()
-{
-    grid_offset = 40;
-    grid_width = 60;
-
-    union()
-    {
-        for (x = [1:x_repeats])
-        {
-            for (y = [1:y_repeats])
-            {
-                x_offset = (x - 1) * grid_offset + grid_width / 2;
-                y_offset = (y - 1) * grid_offset + grid_width / 2;
-                translate([ x_offset, y_offset ])
-                {
-                    import(grid2by2_filename);
-                }
-            }
-        }
-    }
-}
-
-buildPlate();
+buildPlate(x_repeats, y_repeats);

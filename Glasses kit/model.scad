@@ -3,38 +3,23 @@ include <../libraries/BOSL2/std.scad>
 // Select part to make
 mode = "Bottom container"; // [Bottom container, Top container]
 
-// Wall thickness
+// Wall thickness - use 4 for TPU, 2.5 otherwise
 wall = 2.5;
 
 // Spray bottle height
-sb_height = 63;
+sb_height = 110;
 
 // Spray bottle diameter
-sb_diameter = 13;
+sb_diameter = 13.5;
 
 // Container height - without the wall thickness.
-container_height = 101;
+container_height = 110;
+container_width = 55;
+
 module make_model() {
   half_wall = wall / 2;
 
-  container_width = sb_diameter * 4;
   container_length = sb_diameter;
-
-  inner_length = container_height;
-  inner_width = sb_diameter * 4;
-  inner_height = sb_diameter + 0.5;
-
-  inner_space_length = inner_length;
-  inner_space_width = inner_width + 2 * wall;
-  inner_space_height = inner_height + 2 * wall;
-
-  lid_inner_length = container_height / 2;
-  lid_inner_width = inner_space_width + -wall;
-  lid_inner_height = inner_space_height + -wall;
-
-  lid_length = lid_inner_length + wall;
-  lid_width = inner_space_width;
-  lid_height = inner_space_height;
 
   /**
      * Model a cuboid with rounded sides. Top and bottom are not rounded.
@@ -60,7 +45,7 @@ module make_model() {
      * Tube for the spray bottle to be in the container
      */
   module spray_bottle_tube() {
-    hole_size = sb_diameter / 3.5; // Size of the hole in the tube
+    hole_size = sb_diameter / 3; // Size of the hole in the tube
 
     diff() {
       // Make the tube for the spray bottle

@@ -28,20 +28,18 @@ wall = 2.5;
 */
 outer_diameter = inner_diameter + wall * 2;
 
-module pipe()
-{
-    difference()
-    {
-        cylinder(d = outer_diameter, h = inner_height, $fn = 100);
-        // Make hollow
-        translate([ 0, 0, wall ]) cylinder(d = inner_diameter, h = inner_height + 1, $fn = 100);
+module pipe() {
+  difference() {
+    cylinder(d=outer_diameter, h=inner_height, $fn=100);
+    // Make hollow
+    translate([0, 0, wall]) cylinder(d=inner_diameter, h=inner_height + 1, $fn=100);
 
-        // Make openings
-        translate([ -inner_diameter + 20, 0, -5 ]) rotate([ 0, 20, 0 ])
-            cylinder(d = inner_diameter, h = inner_height * 1.20, $fn = 100);
-        translate([ inner_diameter - 20, 0, -5 ]) rotate([ 0, -20, 0 ])
-            cylinder(d = inner_diameter, h = inner_height * 1.20, $fn = 100);
-    }
+    // Make openings
+    translate([-inner_diameter + 20, 0, -5]) rotate([0, 20, 0])
+        cylinder(d=inner_diameter, h=inner_height * 1.20, $fn=100);
+    translate([inner_diameter - 20, 0, -5]) rotate([0, -20, 0])
+        cylinder(d=inner_diameter, h=inner_height * 1.20, $fn=100);
+  }
 }
 
 /*
@@ -59,19 +57,16 @@ module pipe()
  * Example:
  * peg();
  */
-module peg()
-{
-    difference()
-    {
-        translate([ 0, 0, wall ]) cylinder(d = 37, h = 28, $fn = 100);
-        translate([ 0, 0, wall ]) cylinder(d = 29, h = 30, $fn = 100);
-    }
+module peg() {
+  difference() {
+    translate([0, 0, wall]) cylinder(d=37, h=28, $fn=100);
+    translate([0, 0, wall]) cylinder(d=29, h=30, $fn=100);
+  }
 }
 
-module make_stand()
-{
-    pipe();
-    peg();
+module make_stand() {
+  pipe();
+  peg();
 }
 
 make_stand();
