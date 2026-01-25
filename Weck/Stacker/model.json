@@ -1,0 +1,35 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "Ø80 - 751 - 1x3 bottom": {
+            "cols": "3",
+            "mode": "bottom",
+            "rows": "1"
+        },
+        "Ø80 - 751 - 1x3 middle": {
+            "cols": "3",
+            "mode": "middle",
+            "rows": "1"
+        },
+        "Ø80 - 751 - 1x3 top": {
+            "cols": "3",
+            "mode": "top",
+            "rows": "2"
+        },
+        "Ø80 - 751 - 2x3 bottom": {
+            "cols": "3",
+            "mode": "bottom",
+            "rows": "2"
+        },
+        "Ø80 - 751 - 2x3 middle": {
+            "cols": "3",
+            "mode": "middle",
+            "rows": "2"
+        },
+        "Ø80 - 751 - 2x3 top": {
+            "cols": "3",
+            "mode": "top",
+            "rows": "2"
+        }
+    }
+}
