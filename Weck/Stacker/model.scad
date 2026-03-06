@@ -27,16 +27,33 @@ module model() {
 
   holder_height = 7.5;
 
-  fn = 360;
+  fn = 60;
 
   // Calculate plate size in one dimension for "middle" mode.
-  function calc_plate_size_middle(n) = n == 1 ? (bottom_ir + wall) * 2 : spacing * (n - 1);
+  function calc_plate_size_middle(n) =
+    n == 1 ? (
+        (bottom_ir + wall) * 2
+      )
+    : (
+      spacing * (n - 1)
+    );
 
   // Calculate plate size in one dimension based on mode.
-  function calc_plate_size(n) = mode == "middle" ? calc_plate_size_middle(n) : spacing * n;
+  function calc_plate_size(n) =
+    mode == "middle" ?
+      calc_plate_size_middle(n)
+    : (
+      spacing * n - 1
+    );
 
   // Calculate position offset in one dimension for "middle" mode.
-  function calc_pos_offset_middle(n, total) = total == 1 ? spacing / 2 - (spacing - (bottom_ir + wall) * 2) / 2 : spacing * n;
+  function calc_pos_offset_middle(n, total) =
+    total == 1 ? (
+        spacing / 2 - (spacing - (bottom_ir + wall) * 2) / 2
+      )
+    : (
+      spacing * n
+    );
 
   // Calculate position offset in one dimension based on mode.
   function calc_pos_offset(n, total) = mode == "middle" ? calc_pos_offset_middle(n, total) : (spacing * (n + 0.5));
