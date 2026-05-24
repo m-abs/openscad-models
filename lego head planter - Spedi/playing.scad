@@ -1,7 +1,9 @@
 include <../libraries/BOSL2/std.scad>;
 
-fn_factor = 24; // [24-360]
+fn_factor = 16; // [16-360]
 module model() {
+  inner_fn_factor = 60;
+
   // Measurements taken from https://www.printables.com/model/177412-lego-head-planter-easier-print
   top_peg_height = 11;
   top_peg_diameter = 80;
@@ -73,13 +75,13 @@ module model() {
   module top_peg() {
     cyl(h=top_peg_height, d=top_peg_diameter, anchor=BOTTOM, $fn=fn_factor)
       tag("remove")
-        cyl(h=top_peg_height + wall * 2, d=top_peg_diameter - wall * 2, anchor=CENTER, $fn=360);
+        cyl(h=top_peg_height + wall * 2, d=top_peg_diameter - wall * 2, anchor=CENTER, $fn=inner_fn_factor);
   }
 
   diff() {
     cyl(h=face_height, d=face_diameter, rounding=face_rounding, anchor=BOTTOM, $fn=fn_factor) {
       tag("remove")
-        cyl(h=face_height - wall * 2, d=face_diameter - wall * 2, rounding=face_rounding, anchor=CENTER, $fn=360);
+        cyl(h=face_height - wall * 2, d=face_diameter - wall * 2, rounding=face_rounding, anchor=CENTER, $fn=inner_fn_factor);
 
       position(TOP)
         top_peg();
