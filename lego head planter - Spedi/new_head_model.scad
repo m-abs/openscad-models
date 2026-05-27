@@ -160,7 +160,7 @@ module model() {
           up(wall)
             position(TOP)
               cyl(
-                h=height + wall * 2,
+                h=height + wall * 3,
                 d=face_diameter - wall * 4,
                 chamfer2=(face_diameter - neck_diameter) / 2,
                 anchor=TOP,
