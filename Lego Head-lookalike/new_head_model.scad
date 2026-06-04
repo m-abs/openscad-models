@@ -29,7 +29,8 @@ module model() {
   face_hole_diameter = 3;
   face_hole_depth = 5;
 
-  wall = 3;
+  side_wall = low_poly ? 4.5 : 3;
+  vertical_wall = 3;
 
   face_diameter = original_face_diameter * scale_factor;
 
@@ -47,10 +48,10 @@ module model() {
   // Make a face hole with closed back. This reduces the need for thicker walls.
   module single_face_hole() {
     tag("keep")
-      right(face_diameter / 2 - face_hole_depth / 2 - wall)
+      right(face_diameter / 2 - face_hole_depth / 2 - vertical_wall)
         yrot(90) {
           diff("f_remove", "f_keep") {
-            cyl(h=face_hole_depth + wall, d1=wall, d2=face_hole_diameter + wall * 2, $fn=360) {
+            cyl(h=face_hole_depth + vertical_wall, d1=vertical_wall, d2=face_hole_diameter + vertical_wall * 2, $fn=360) {
               tag("f_remove")
                 position(TOP) cyl(h=face_hole_depth, d=face_hole_diameter, $fn=360, anchor=TOP);
             }
@@ -98,7 +99,9 @@ module model() {
 
   // Make the neck, which is a simple cylinder with a hole in it.
   module neck() {
-    tube(h=neck_height, od=neck_diameter, wall=wall, anchor=BOTTOM, $fn=fn_factor, ifn=inner_fn_factor);
+    cyl(h=neck_height, d=neck_diameter, anchor=BOTTOM, $fn=fn_factor, ifn=inner_fn_factor) {
+      position(TOP) tag("remove") cyl(h=neck_height + vertical_wall * 2, d=neck_diameter - side_wall * 2, anchor=TOP, $fn=inner_fn_factor);
+    }
   }
 
   // Make the full head with face holes and neck. I don't recommend printing this one.
@@ -106,13 +109,13 @@ module model() {
     diff() {
       cyl(h=face_height, d=face_diameter, rounding=face_rounding, anchor=BOTTOM, $fn=fn_factor) {
         tag("remove")
-          up(wall)
+          up(vertical_wall)
             position(TOP)
               cyl(
-                h=face_height - wall * 2,
-                d=face_diameter - wall * 2,
+                h=face_height - vertical_wall * 2,
+                d=face_diameter - side_wall * 2,
                 rounding1=face_rounding,
-                chamfer2=(face_diameter - neck_diameter) / 2 + wall,
+                chamfer2=(face_diameter - neck_diameter) / 2 + side_wall,
                 anchor=TOP,
                 $fn=inner_fn_factor
               );
@@ -137,8 +140,8 @@ module model() {
         tag("remove")
           position(TOP)
             cyl(
-              h=height - wall,
-              d=face_diameter - wall * 2,
+              h=height - vertical_wall,
+              d=face_diameter - side_wall * 2,
               rounding1=face_rounding,
               anchor=TOP,
               $fn=inner_fn_factor
@@ -157,20 +160,19 @@ module model() {
     diff() {
       cyl(h=height, d=face_diameter, rounding2=face_rounding, anchor=BOTTOM, $fn=fn_factor) {
         tag("remove")
-          up(wall)
-            position(TOP)
-              cyl(
-                h=height + wall * 3,
-                d=face_diameter - wall * 4,
-                chamfer2=(face_diameter - neck_diameter) / 2,
-                anchor=TOP,
-                $fn=inner_fn_factor
-              );
+          position(TOP)
+            cyl(
+              h=height + vertical_wall * 3,
+              d=face_diameter - side_wall * 4,
+              chamfer2=(face_diameter - neck_diameter) / 2,
+              anchor=TOP,
+              $fn=inner_fn_factor
+            );
 
         position(TOP)
           neck();
 
-        position(BOTTOM) cyl(h=wall, d=(face_diameter - wall * 2), anchor=TOP, $fn=inner_fn_factor);
+        position(BOTTOM) cyl(h=vertical_wall, d=(face_diameter - side_wall * 2), anchor=TOP, $fn=inner_fn_factor);
       }
     }
   }
@@ -178,17 +180,18 @@ module model() {
   // Make an inner pot.
   // TODO: Make this generic and move it to another file, to be shared between projects.
   module inner_pot() {
-    top_r = (neck_diameter - wall * 2) / 2 - 0.5;
+    wall = 3;
+    top_r = (neck_diameter - side_wall * 2) / 2 - 0.5;
     bottom_r = top_r / 3;
     edge_r = neck_diameter / 2;
     edge_h = 1.8;
 
-    pod_height = head_height + edge_h - wall;
+    pod_height = head_height + edge_h - vertical_wall;
     bottom_h = pod_height * 0.225;
     top_h = pod_height - bottom_h;
 
     module pod_edge() {
-      tube(h=edge_h, or=edge_r, wall=edge_r - top_r, anchor=TOP, $fn=inner_fn_factor);
+      tube(h=edge_h, or=edge_r, wall=edge_r - top_r, anchor=TOP, $fn=fn_factor);
     }
 
     tube(h=top_h, or1=top_r, or2=top_r, wall=wall, anchor=BOTTOM, $fn=inner_fn_factor) {
