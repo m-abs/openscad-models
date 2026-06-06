@@ -99,7 +99,7 @@ module model() {
 
   // Make the neck, which is a simple cylinder with a hole in it.
   module neck() {
-    cyl(h=neck_height, d=neck_diameter, anchor=BOTTOM, $fn=fn_factor, ifn=inner_fn_factor) {
+    cyl(h=neck_height, d=neck_diameter, anchor=BOTTOM, $fn=fn_factor) {
       position(TOP) tag("remove") cyl(h=neck_height + vertical_wall * 2, d=neck_diameter - side_wall * 2, anchor=TOP, $fn=inner_fn_factor);
     }
   }
