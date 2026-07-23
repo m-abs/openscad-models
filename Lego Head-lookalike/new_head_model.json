@@ -1,129 +1,16 @@
 {
+  "fileFormatVersion": "1",
   "parameterSets": {
-    "Medium - Low poly face": {
-      "make_model": "face",
-      "low_poly": "true",
-      "dev_mode": "false",
-      "size": "medium"
-    },
-    "Medium - Low poly lid": {
-      "dev_mode": "false",
-      "low_poly": "true",
-      "make_model": "lid",
-      "size": "medium"
-    },
-    "Medium - Low poly full head": {
-      "make_model": "full_head",
-      "low_poly": "true",
-      "dev_mode": "false",
-      "size": "medium"
-    },
-    "Medium - Low poly pot": {
-      "make_model": "pot",
-      "dev_mode": "false",
-      "low_poly": "true",
-      "size": "medium"
-    },
-    "Medium - High poly face": {
-      "make_model": "face",
-      "dev_mode": "false",
-      "low_poly": "false",
-      "size": "medium"
-    },
-    "Medium - High poly lid": {
-      "dev_mode": "false",
-      "low_poly": "false",
-      "make_model": "lid",
-      "size": "medium"
-    },
-    "Medium - High poly full head": {
-      "make_model": "full_head",
-      "dev_mode": "false",
-      "low_poly": "false",
-      "size": "medium"
-    },
-    "Medium - High poly pot": {
-      "make_model": "pot",
-      "dev_mode": "false",
-      "low_poly": "false",
-      "size": "medium"
-    },
-    "Small - Low poly face": {
-      "make_model": "face",
-      "low_poly": "true",
-      "dev_mode": "false",
-      "size": "small"
-    },
-    "Small - Low poly lid": {
-      "dev_mode": "false",
-      "low_poly": "true",
-      "make_model": "lid",
-      "size": "small"
-    },
-    "Small - Low poly full head": {
-      "make_model": "full_head",
-      "low_poly": "true",
-      "dev_mode": "false",
-      "size": "small"
-    },
-    "Small - Low poly pot": {
-      "make_model": "pot",
-      "dev_mode": "false",
-      "low_poly": "false",
-      "size": "small"
-    },
-    "Small - High poly face": {
-      "make_model": "face",
-      "dev_mode": "false",
-      "low_poly": "false",
-      "size": "small"
-    },
-    "Small - High poly lid": {
-      "dev_mode": "false",
-      "low_poly": "false",
-      "make_model": "lid",
-      "size": "small"
-    },
-    "Small - High poly full head": {
-      "make_model": "full_head",
-      "dev_mode": "false",
-      "low_poly": "false",
-      "size": "small"
-    },
-    "Small - High poly pot": {
-      "make_model": "pot",
-      "dev_mode": "false",
-      "low_poly": "false",
-      "size": "small"
-    },
-    "Large - Low poly face": {
-      "make_model": "face",
-      "low_poly": "true",
-      "dev_mode": "false",
-      "size": "large"
-    },
-    "Large - Low poly lid": {
-      "dev_mode": "false",
-      "low_poly": "true",
-      "make_model": "lid",
-      "size": "large"
-    },
-    "Large - Low poly full head": {
-      "make_model": "full_head",
-      "low_poly": "true",
-      "dev_mode": "false",
-      "size": "large"
-    },
-    "Large - Low poly pot": {
-      "make_model": "pot",
-      "dev_mode": "false",
-      "low_poly": "true",
-      "size": "large"
-    },
     "Large - High poly face": {
-      "make_model": "face",
       "dev_mode": "false",
       "low_poly": "false",
+      "make_model": "face",
+      "size": "large"
+    },
+    "Large - High poly full head": {
+      "dev_mode": "false",
+      "low_poly": "false",
+      "make_model": "full_head",
       "size": "large"
     },
     "Large - High poly lid": {
@@ -132,18 +19,131 @@
       "make_model": "lid",
       "size": "large"
     },
-    "Large - High poly full head": {
-      "make_model": "full_head",
+    "Large - High poly pot": {
       "dev_mode": "false",
       "low_poly": "false",
+      "make_model": "pot",
       "size": "large"
     },
-    "Large - High poly pot": {
+    "Large - Low poly face": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "face",
+      "size": "large"
+    },
+    "Large - Low poly full head": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "full_head",
+      "size": "large"
+    },
+    "Large - Low poly lid": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "lid",
+      "size": "large"
+    },
+    "Large - Low poly pot": {
+      "dev_mode": "false",
+      "low_poly": "true",
       "make_model": "pot",
+      "size": "large"
+    },
+    "Medium - High poly face": {
       "dev_mode": "false",
       "low_poly": "false",
-      "size": "large"
+      "make_model": "face",
+      "size": "medium"
+    },
+    "Medium - High poly full head": {
+      "dev_mode": "false",
+      "low_poly": "false",
+      "make_model": "full_head",
+      "size": "medium"
+    },
+    "Medium - High poly lid": {
+      "dev_mode": "false",
+      "low_poly": "false",
+      "make_model": "lid",
+      "size": "medium"
+    },
+    "Medium - High poly pot": {
+      "dev_mode": "false",
+      "low_poly": "false",
+      "make_model": "pot",
+      "size": "medium"
+    },
+    "Medium - Low poly face": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "face",
+      "size": "medium"
+    },
+    "Medium - Low poly full head": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "full_head",
+      "size": "medium"
+    },
+    "Medium - Low poly lid": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "lid",
+      "size": "medium"
+    },
+    "Medium - Low poly pot": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "pot",
+      "size": "medium"
+    },
+    "Small - High poly face": {
+      "dev_mode": "false",
+      "low_poly": "false",
+      "make_model": "face",
+      "size": "small"
+    },
+    "Small - High poly full head": {
+      "dev_mode": "false",
+      "low_poly": "false",
+      "make_model": "full_head",
+      "size": "small"
+    },
+    "Small - High poly lid": {
+      "dev_mode": "false",
+      "low_poly": "false",
+      "make_model": "lid",
+      "size": "small"
+    },
+    "Small - High poly pot": {
+      "dev_mode": "false",
+      "low_poly": "false",
+      "make_model": "pot",
+      "size": "small"
+    },
+    "Small - Low poly face": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "face",
+      "size": "small"
+    },
+    "Small - Low poly full head": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "full_head",
+      "size": "small"
+    },
+    "Small - Low poly lid": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "lid",
+      "size": "small"
+    },
+    "Small - Low poly pot": {
+      "dev_mode": "false",
+      "low_poly": "true",
+      "make_model": "pot",
+      "size": "small"
     }
-  },
-  "fileFormatVersion": "1"
+  }
 }

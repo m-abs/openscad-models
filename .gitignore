@@ -2,3 +2,4 @@
 *.3mf
 *.json
 .DS_Store
+.tokensave
