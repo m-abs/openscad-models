@@ -14,12 +14,11 @@ module model() {
   // The bottle is to be turn upside down, so the cone is at the bottom and the pole is inside the bottle.
   // To allow the water to drain, there are grooves cut into the cone, and the pole is made of 4 cylinders.
   cone_height = 25; // Arbitrary height of the cone. It can't be too high without loosing stability.
-  cone_top_radius = pole_radius;
-  cone_bottom_radius = foot_width / 2;
-  // Pole dimensions.
   pole_diameter = 16; // Diameter of the pole, this needs to fit inside the bottle neck.
   pole_radius = pole_diameter / 2;
+  cone_top_radius = pole_radius;
   pool_height = 80 - cone_height; // Height of the pole that is inside the bottle, this is the height of the pool minus the height of the cone.
+  cone_bottom_radius = foot_width / 2;
 
   /**
     * Build a pole with 4 cylinders, with the given padding.
